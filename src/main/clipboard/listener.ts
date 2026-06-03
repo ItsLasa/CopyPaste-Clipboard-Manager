@@ -9,6 +9,7 @@ const emitter = new EventEmitter()
 let interval: ReturnType<typeof setInterval> | null = null
 let lastText = ''
 let lastImageDataUrl = ''
+let lastFilePaths = ''
 
 export function startListening(onChange: ClipboardHandler): void {
   let nativeStarted = false
@@ -49,6 +50,23 @@ function startPolling(onChange: ClipboardHandler, intervalMs = POLL_INTERVAL_MS)
         lastImageDataUrl = dataUrl
         changed = true
       }
+    }
+
+    // check file paths too (Explorer copies)
+    let currentFilePaths = ''
+    try {
+      const bm = clipboard.readBookmark()
+      if (bm?.url) currentFilePaths = bm.url
+    } catch { /* ignore */ }
+    if (!currentFilePaths) {
+      try {
+        const raw = clipboard.readBuffer('FileNameW')
+        if (raw?.length) currentFilePaths = raw.toString('utf16le')
+      } catch { /* ignore */ }
+    }
+    if (currentFilePaths !== lastFilePaths) {
+      lastFilePaths = currentFilePaths
+      changed = true
     }
 
     if (changed) {
