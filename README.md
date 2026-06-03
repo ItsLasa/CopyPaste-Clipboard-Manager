@@ -1,4 +1,5 @@
 # Clipboard Manager
+![Capture](Capture.PNG)
 
 Local-first clipboard history and screenshot manager for Windows.
 
