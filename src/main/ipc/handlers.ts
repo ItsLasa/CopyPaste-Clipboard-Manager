@@ -14,7 +14,6 @@ import { pauseCapture, resumeCapture, getCaptureState } from '../clipboard/captu
 import { hideOverlay } from '../windows/overlay'
 import { getSettingsWindow } from '../windows/settings'
 import { updateTrayState } from '../tray'
-import { pasteBack } from '../hotkeys/paste-back'
 import { getShelfWindow } from '../windows/shelf'
 import { loadSettings, getSettings, updateSettings } from '../settings-store'
 import { captureRegion, cancelRegionCapture } from '../screenshots/region-capture'
@@ -73,15 +72,6 @@ export function registerIpcHandlers(): void {
     }
 
     hideOverlay()
-
-    setTimeout(async () => {
-      try {
-        await pasteBack()
-      } catch {
-        // uiohook not available — user presses Ctrl+V manually
-      }
-    }, 60)
-
     return { ok: true }
   })
 
@@ -119,6 +109,10 @@ export function registerIpcHandlers(): void {
     resumeCapture()
     updateTrayState(false)
     return { ok: true }
+  })
+
+  ipcMain.handle('blob:path', (_event, relativePath: string) => {
+    return path.join(app.getPath('userData'), relativePath)
   })
 
   ipcMain.handle(IPC.SETTINGS_GET, () => {

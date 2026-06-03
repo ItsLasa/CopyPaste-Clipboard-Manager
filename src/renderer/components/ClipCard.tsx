@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import {
   FileText, Link, Palette, Code, Mail, FileImage, Pin, Trash2, Copy, MoreHorizontal,
@@ -39,7 +39,14 @@ interface ClipCardProps {
 
 export function ClipCard({ clip, onPin, onDelete, onCopy }: ClipCardProps): React.JSX.Element {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [absolutePath, setAbsolutePath] = useState<string | null>(null)
   const Icon = typeIcons[clip.type] ?? FileText
+
+  useEffect(() => {
+    if (clip.blobPath) {
+      window.api.invoke('blob:path', clip.blobPath).then((p) => setAbsolutePath(p as string))
+    }
+  }, [clip.blobPath])
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
@@ -48,13 +55,14 @@ export function ClipCard({ clip, onPin, onDelete, onCopy }: ClipCardProps): Reac
 
   const handleDragStart = useCallback(
     (e: React.DragEvent) => {
-      if (clip.blobPath) {
-        e.preventDefault()
-        e.stopPropagation()
-        window.api.send('drag:start', { clipId: clip.id, blobPath: clip.blobPath })
-      }
+      if (!absolutePath) return
+      const fileUrl = `file:///${absolutePath.replace(/\\/g, '/')}`
+      e.dataTransfer.setData('DownloadURL', fileUrl)
+      e.dataTransfer.setData('text/uri-list', fileUrl)
+      e.dataTransfer.setData('text/plain', clip.textValue ?? '')
+      e.dataTransfer.effectAllowed = 'copy'
     },
-    [clip.id, clip.blobPath]
+    [absolutePath, clip.textValue]
   )
 
   const truncate = (text: string | null, max: number): string => {
