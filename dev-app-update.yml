@@ -1,0 +1,4 @@
+provider: github
+owner: your-org
+repo: clipboard-manager
+updaterCacheDirName: clipboard-manager-updater

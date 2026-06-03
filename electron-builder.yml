@@ -1,0 +1,59 @@
+appId: com.clipboard.app
+productName: Clipboard Manager
+directories:
+  buildResources: build
+files:
+  - '!**/.vscode/*'
+  - '!src/*'
+  - '!electron.vite.config.{js,ts,mjs,cjs}'
+  - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
+  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
+  - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json,tailwind.config.ts,postcss.config.mjs,vitest.config.ts}'
+  - '!{scripts/*,__tests__/*,AGENTS.md}'
+asarUnpack:
+  - resources/**
+  - 'node_modules/better-sqlite3/**'
+  - 'node_modules/uiohook-napi/**'
+  - 'node_modules/clipboard-event/**'
+  - 'node_modules/active-win/**'
+win:
+  executableName: clipboard-manager
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: appx
+      arch: [x64]
+  icon: resources/icon.png
+nsis:
+  artifactName: ${name}-${version}-setup.${ext}
+  shortcutName: ${productName}
+  uninstallDisplayName: ${productName}
+  createDesktopShortcut: always
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+appx:
+  identityName: com.clipboard.app
+  publisherDisplayName: Clipboard Manager
+  languages: [en-US]
+mac:
+  entitlementsInherit: build/entitlements.mac.plist
+  target:
+    - dmg
+  notarize: false
+  icon: resources/icon.png
+dmg:
+  artifactName: ${name}-${version}.${ext}
+linux:
+  target:
+    - AppImage
+    - deb
+  maintainer: support@clipboard.app
+  category: Utility
+  icon: resources/icon.png
+appImage:
+  artifactName: ${name}-${version}.${ext}
+npmRebuild: false
+publish:
+  provider: github
+  owner: your-org
+  repo: clipboard-manager

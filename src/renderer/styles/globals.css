@@ -1,0 +1,87 @@
+@import './fonts.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --theme-bg: #0E0E10;
+    --theme-fg: #F5F5F7;
+  }
+
+  [data-theme='light'] {
+    --theme-bg: #F5F5F7;
+    --theme-fg: #0E0E10;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #F5F5F7;
+    background: #0E0E10;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    user-select: none;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+  }
+
+  [data-theme='light'] body {
+    color: #1E1E22;
+    background: #F5F5F7;
+  }
+
+  [data-theme='light'] .bg-bg {
+    background-color: #F5F5F7;
+  }
+
+  [data-theme='light'] .bg-bg-subtle {
+    background-color: #EAEAEE;
+  }
+
+  [data-theme='light'] .bg-bg-elevated {
+    background-color: #FFFFFF;
+  }
+
+  [data-theme='light'] .text-fg {
+    color: #1E1E22;
+  }
+
+  [data-theme='light'] .text-fg-muted {
+    color: #5A5A5E;
+  }
+
+  [data-theme='light'] .text-fg-subtle {
+    color: #8E8E93;
+  }
+
+  [data-theme='light'] .border-border {
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  #root {
+    width: 100%;
+    height: 100vh;
+  }
+}
+
+@layer components {
+  .drag-region {
+    -webkit-app-region: drag;
+  }
+
+  .no-drag {
+    -webkit-app-region: no-drag;
+  }
+}

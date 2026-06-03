@@ -1,0 +1,23 @@
+export const IPC = {
+  CLIPS_QUERY: 'clips:query',
+  CLIPS_DELETE: 'clips:delete',
+  CLIPS_PIN: 'clips:pin',
+  CLIPS_USE: 'clips:use',
+  CATEGORIES_LIST: 'categories:list',
+  CATEGORIES_UPSERT: 'categories:upsert',
+  SETTINGS_GET: 'settings:get',
+  SETTINGS_SET: 'settings:set',
+  CAPTURE_PAUSE: 'capture:pause',
+  CAPTURE_RESUME: 'capture:resume',
+  CLIPS_SEARCH: 'clips:search',
+  OVERLAY_SELECT: 'overlay:select',
+  LICENSE_VALIDATE: 'license:validate',
+  LICENSE_STATUS: 'license:status',
+  WINDOW_HIDE: 'window:hide',
+  DRAG_START: 'drag:start',
+
+  CLIP_ADDED: 'clip:added',
+  CLIP_UPDATED: 'clip:updated',
+  CLIP_DELETED: 'clip:deleted',
+  CAPTURE_STATE: 'capture:state',
+} as const
