@@ -52,6 +52,20 @@ Electron 39 · React 19 · TypeScript · Tailwind CSS · SQLite (better-sqlite3 
 - Settings: `%APPDATA%\clipboard-manager\settings.json`
 - Logs: `%APPDATA%\clipboard-manager\logs\`
 
+## Contributing
+
+Contributions are welcome! Whether it's bug reports, feature requests, or code changes, feel free to get involved.
+
+### Getting Started
+
+1. Fork the repository
+2. Clone your fork: `git clone https://github.com/your-username/clipboard-manager.git`
+3. Install dependencies: `npm install`
+4. Build SQLite for Electron: 
+   ```bash
+   cd node_modules\better-sqlite3
+   npx prebuild-install --runtime electron --target 39.8.10
+
 ## Development
 
 ```bash
