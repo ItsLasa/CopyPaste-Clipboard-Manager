@@ -13,12 +13,10 @@ export function ImageThumb({ blobPath }: ImageThumbProps): React.JSX.Element {
     )
   }
 
-  const fullPath = `safe-file://${blobPath}`
-
   return (
     <div className="relative overflow-hidden rounded-lg bg-bg h-20">
       <img
-        src={fullPath}
+        src={`blob-file://${blobPath}`}
         alt="Clip thumbnail"
         className="w-full h-full object-cover"
         onError={(e) => {

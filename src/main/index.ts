@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell } from 'electron'
+import { app, BrowserWindow, shell, protocol, net } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { log } from './logger'
@@ -82,12 +82,22 @@ function quitApp(): void {
   app.quit()
 }
 
+protocol.registerSchemesAsPrivileged([
+  { scheme: 'blob-file', privileges: { bypassCSP: true, stream: true, supportFetchAPI: true } },
+])
+
 app.whenReady().then(() => {
   electronApp.setAppUserModelId('com.clipboard.app')
 
   loadSettings()
   loadLicense()
   initDb()
+
+  protocol.handle('blob-file', (request) => {
+    const url = request.url.replace('blob-file://', '')
+    const filePath = join(app.getPath('userData'), 'blobs', url)
+    return net.fetch(`file:///${filePath.replace(/\\/g, '/')}`)
+  })
 
   registerIpcHandlers()
 
